@@ -70,7 +70,8 @@ for (i in seq_along(state_shp_list)) {
 for (i in c(1, 3, 4)) {
   state_shp_list[[i]] <- state_shp_list[[i]] %>%
     select(-c(1, 4:7, 9)) %>%
-    mutate(state = states[[i]])
+    mutate(state = states[[i]]) %>%
+    select(Elect_div, state, Numccds, Area_SqKm, geometry)
 
   colnames(state_shp_list[[i]])[1:4] <- str_to_upper(colnames(state_shp_list[[i]]))[1:4]
 }

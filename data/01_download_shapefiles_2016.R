@@ -79,7 +79,9 @@ for (i in c(1, 3, 4)) {
 state_shp_list[[2]] <- state_shp_list[[2]] %>% select(c(1:3, 8, 10)) %>% filter(!(STATE %in% states[c(1, 3, 4)]))
 
 # Collapse the list into a normal df
-electorates <- sf::st_as_sf(data.table::rbindlist(state_shp_list))
+electorates <- sf::st_as_sf(data.table::rbindlist(state_shp_list)) %>% rename(division = ELECT_DIV)
+
+colnames(electorates) <- colnames(electorates) %>% str_to_lower()
 
 # Export and clean up -----------------------------------------------------
 write_sf(electorates, here::here("data", "electorates_2016.gpkg"))
@@ -92,6 +94,7 @@ test <- read_sf(here::here("data", "electorates_2016.gpkg")) %>% rename(geometry
 
 p1 <- ggplot(test) +
   geom_sf(size = .02) +
+  coord_sf(xlim = c(-1887432, 2121654)) +
   theme_void() +
   theme_minimal()
 

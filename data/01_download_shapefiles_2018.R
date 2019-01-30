@@ -72,7 +72,11 @@ for (i in seq_along(state_shp_list)) {
 
 # Collapse the list into a normal df
 electorates <- sf::st_as_sf(data.table::rbindlist(state_shp_list, idcol = TRUE)) %>%
-  rename(state = .id)
+  rename(state = .id, division = Elect_div)
+
+colnames(electorates) <- colnames(electorates) %>% str_to_lower()
+
+electorates <- electorates %>% select(division, state, numccds, area_sqkm, geometry)
 
 # Export and clean up -----------------------------------------------------
 write_sf(electorates, here::here("data", "electorates_2018.gpkg"))

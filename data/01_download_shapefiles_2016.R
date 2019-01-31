@@ -71,7 +71,9 @@ for (i in c(1, 3, 4)) {
   state_shp_list[[i]] <- state_shp_list[[i]] %>%
     select(-c(1, 4:7, 9)) %>%
     mutate(state = states[[i]]) %>%
-    select(Elect_div, state, Numccds, Area_SqKm, geometry)
+    select(Elect_div, state, Numccds, Area_SqKm, geometry) %>%
+    # Drop Z coord (all 0s)
+    st_zm()
 
   colnames(state_shp_list[[i]])[1:4] <- str_to_upper(colnames(state_shp_list[[i]]))[1:4]
 }
